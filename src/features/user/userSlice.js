@@ -48,12 +48,22 @@ export const loginUser = createAsyncThunk(
   }
 );
 
-const updateUser = createAsyncThunk(
+export const updateUser = createAsyncThunk(
   "user/updateUser",
   async (user, thunkAPI) => {
     try {
-      const resp = await customFetch.patch("/auth/updateUser",user,);
+      const resp = await customFetch.patch("/auth/updateUser", user, {
+        headers: {
+          authorization: `Bearer ${thunkAPI.getState().user.user.token}`,
+          // authorization: `Bearer `,
+        },
+      });
+      return resp.data;
     } catch (error) {
+      if (error.response.status === 401) {
+        thunkAPI.dispatch(logoutUser());
+        return thunkAPI.rejectWithValue("Unauthorized! , Logging Out");
+      }
       return thunkAPI.rejectWithValue(error.response.data.msg);
     }
   }
@@ -66,10 +76,13 @@ const userSlice = createSlice({
     toggleSidebar: (state) => {
       state.isSidebarOpen = !state.isSidebarOpen;
     },
-    logoutUser: (state) => {
+    logoutUser: (state, { payload }) => {
       state.user = null;
       state.isSidebarOpen = false;
       removeUserFromLocalStorage();
+      if (payload) {
+        toast.success(payload);
+      }
     },
   },
   extraReducers: {
@@ -89,7 +102,6 @@ const userSlice = createSlice({
     },
     [loginUser.pending]: (state) => {
       state.isLoading = true;
-      state.user = null;
     },
     [loginUser.fulfilled]: (state, { payload }) => {
       const { user } = payload;
@@ -101,6 +113,30 @@ const userSlice = createSlice({
     [loginUser.rejected]: (state, action) => {
       state.isLoading = false;
       toast.error(`${action.payload}`);
+    },
+    [updateUser.pending]: (state) => {
+      state.isLoading = true;
+      toast.warn("Please Wait for sometime", {
+        position: "top-center",
+      });
+    },
+    [updateUser.fulfilled]: (state, { payload }) => {
+      const { user } = payload;
+      state.isLoading = false;
+      state.user = user;
+      addUserToLocalStorage(user);
+      toast.success("Successfully updated", {
+        position: "top-center",
+      });
+    },
+    [updateUser.rejected]: (state, action) => {
+      state.isLoading = false;
+      toast.error(
+        action.payload ? action.payload : "Sorry we can't update...",
+        {
+          position: "top-center",
+        }
+      );
     },
   },
 });
