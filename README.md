@@ -911,48 +911,47 @@ export default Navbar
 Navbar.js;
 
 ```js
+import Wrapper from "../assets/wrappers/Navbar";
+import { FaAlignLeft, FaUserCircle, FaCaretDown } from "react-icons/fa";
+import Logo from "./Logo";
+import { useState } from "react";
 
-import Wrapper from '../assets/wrappers/Navbar';
-import { FaAlignLeft, FaUserCircle, FaCaretDown } from 'react-icons/fa';
-import Logo from './Logo';
-import { useState } from 'react';
-
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from "react-redux";
 
 const Navbar = () => {
-
-
   const { user } = useSelector((store) => store.user);
   const dispatch = useDispatch();
 
-
-
   return (
     <Wrapper>
-      <div className='nav-center'>
-        <button type='button' className='toggle-btn' onClick={()=> console.log('toggle sidebar')}>
+      <div className="nav-center">
+        <button
+          type="button"
+          className="toggle-btn"
+          onClick={() => console.log("toggle sidebar")}
+        >
           <FaAlignLeft />
         </button>
         <div>
           <Logo />
-          <h3 className='logo-text'>dashboard</h3>
+          <h3 className="logo-text">dashboard</h3>
         </div>
-        <div className='btn-container'>
+        <div className="btn-container">
           <button
-            type='button'
-            className='btn'
-            onClick={() => console.log('toggle logout dropdown')}
+            type="button"
+            className="btn"
+            onClick={() => console.log("toggle logout dropdown")}
           >
             <FaUserCircle />
             {user?.name}
             <FaCaretDown />
           </button>
-          <div className= 'dropdown show-dropdown'>
+          <div className="dropdown show-dropdown">
             <button
-              type='button'
-              className='dropdown-btn'
+              type="button"
+              className="dropdown-btn"
               onClick={() => {
-               console.log('logout user')
+                console.log("logout user");
               }}
             >
               logout
@@ -965,7 +964,6 @@ const Navbar = () => {
 };
 
 export default Navbar;
-
 ```
 
 #### 36) Toggle Sidebar
@@ -1332,6 +1330,7 @@ const [userData,setUserData] = useState({
       return;
     }
   };
+
 const handleChange = (e) =>{
   const name = e.target.name
   const value = e.target.value

@@ -1,4 +1,8 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import {
+  createSlice,
+  createAsyncThunk,
+  isAsyncThunkAction,
+} from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
 import customFetch from "../../utils/axios";
 import {
@@ -39,6 +43,17 @@ export const loginUser = createAsyncThunk(
       return resp.data;
     } catch (error) {
       //   console.log(error);
+      return thunkAPI.rejectWithValue(error.response.data.msg);
+    }
+  }
+);
+
+const updateUser = createAsyncThunk(
+  "user/updateUser",
+  async (user, thunkAPI) => {
+    try {
+      const resp = await customFetch.patch("/auth/updateUser",user,);
+    } catch (error) {
       return thunkAPI.rejectWithValue(error.response.data.msg);
     }
   }
@@ -90,6 +105,6 @@ const userSlice = createSlice({
   },
 });
 
-export const { toggleSidebar } = userSlice.actions;
+export const { toggleSidebar, logoutUser } = userSlice.actions;
 
 export default userSlice.reducer;
