@@ -3027,17 +3027,18 @@ const { jobs, isLoading, page, totalJobs, numOfPages } = useSelector(
 );
 
 return (
-    <Wrapper>
-      <h5>
-        {totalJobs} job{jobs.length > 1 && 's'} found
-      </h5>
-      <div className='jobs'>
-        {jobs.map((job) => {
-          return <Job key={job._id} {...job} />;
-        })}
-      </div>
-      {numOfPages > 1 && <PageBtnContainer />}
-    </Wrapper>
+  <Wrapper>
+    <h5>
+      {totalJobs} job{jobs.length > 1 && "s"} found
+    </h5>
+    <div className="jobs">
+      {jobs.map((job) => {
+        return <Job key={job._id} {...job} />;
+      })}
+    </div>
+    {numOfPages > 1 && <PageBtnContainer />}
+  </Wrapper>
+);
 ```
 
 #### 85) PageBtnContainer Structure
@@ -3163,7 +3164,7 @@ export const getAllJobs = createAsyncThunk(
     try {
       const resp = await customFetch.get(url);
       return resp.data;
-    }
+    }})
 
 ```
 
