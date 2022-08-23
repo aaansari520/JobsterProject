@@ -88,11 +88,11 @@ const jobSlice = createSlice({
       state[name] = value;
     },
     clearValues: () => {
-      return {
-        ...initialState,
-        jobLocation: getUserFromLocalStorage()?.location || "",
-      };
-      //   return initialState;
+      // return {
+      //   ...initialState,
+      //   jobLocation: getUserFromLocalStorage()?.location || "",
+      // };
+      return initialState;
     },
     setEditJob: (state, { payload }) => {
       return { ...state, isEditing: true, ...payload };

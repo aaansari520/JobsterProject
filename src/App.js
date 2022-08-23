@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { Landing, Error, Register, ProtectedRoute } from "./pages";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -9,13 +9,16 @@ import {
   SharedLayout,
   Stats,
 } from "./pages/Dashboard";
+import { useSelector } from "react-redux";
 
 function App() {
+  const { user } = useSelector((store) => store.user);
   return (
     <BrowserRouter>
       <Routes>
         <Route
           path="/"
+          exact
           element={
             <ProtectedRoute>
               <SharedLayout />
@@ -28,7 +31,10 @@ function App() {
           <Route path="profile" element={<Profile />} />
         </Route>
         <Route path="/landing" element={<Landing />} />
-        <Route path="/register" element={<Register />} />
+        <Route
+          path="/register"
+          element={user ? <Navigate to="/" replace /> : <Register />}
+        />
         <Route path="*" element={<Error />} />
       </Routes>
       <ToastContainer />

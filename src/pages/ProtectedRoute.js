@@ -4,7 +4,7 @@ import { Navigate, useNavigate } from "react-router-dom";
 
 const ProtectedRoute = ({ children }) => {
   const { user } = useSelector((store) => store.user);
-  //   let navigate = useNavigate(); // isse bahi honga Navigate Component import karna pdenga
+  //   let navigate = useNavigate(); // isse nahi honga Navigate Component import karna pdenga
 
   if (!user) {
     return <Navigate to="/landing" />;

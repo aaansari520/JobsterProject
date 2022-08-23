@@ -112,7 +112,9 @@ const userSlice = createSlice({
     },
     [loginUser.rejected]: (state, action) => {
       state.isLoading = false;
-      toast.error(`${action.payload}`);
+      toast.error(`${action.payload}`, {
+        position: "top-center",
+      });
     },
     [updateUser.pending]: (state) => {
       state.isLoading = true;
